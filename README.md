@@ -57,20 +57,20 @@ INPUT: title, date, attendee_name, attendee_email, transcript
 3. n8n receives payload:
     Extract: title, date, name, email, transcript
    
-4. Send to GPT-4o-mini:
-    System prompt: LAUNCH framework rules
+4. Send to GPT-4o-mini:  
+    System prompt: LAUNCH framework rules  
     User message: formatted transcript + metadata
    
 5. Receive AI response (raw text)
 
-6. Code node parses response:
-    Split by "LINKEDIN_POST:", "FOLLOW_UP_EMAIL:", "PRESS_ANGLE:"
+6. Code node parses response:  
+    Split by "LINKEDIN_POST:", "FOLLOW_UP_EMAIL:", "PRESS_ANGLE:"  
     Store each section as separate variable
 
-7. Write to Google Sheets:
+7. Write to Google Sheets:  
     Row: [timestamp, title, date, name, linkedin_post, email_draft, press_angle]
 
-8. Return JSON to frontend:
+8. Return JSON to frontend:   
     { linkedin_post, follow_up_email, press_angle }
 
 9. Frontend displays outputs to user
