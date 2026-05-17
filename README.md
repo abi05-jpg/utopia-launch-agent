@@ -4,9 +4,16 @@ One-line: An AI agent that turns raw meeting transcripts into a LinkedIn post, f
 
 ## How to Run
 
-1. Website: https://profound-concha-f73382.netlify.app/
-2. n8n workflow is hosted on n8n Cloud (webhook endpoint receives POST requests)
-3. Submit a transcript via the form → outputs appear on screen + logged to Google Sheets
+1. n8n workflow is hosted on n8n Cloud (webhook endpoint receives POST requests)
+2. Submit a transcript via the form → outputs appear on screen + logged to Google Sheets
+
+## Live Links
+
+| Resource | Link |
+|----------|------|
+| Live Site | [elaborate-kashata-e71762.netlify.app](https://profound-concha-f73382.netlify.app/) |
+| Loom Demo | [Watch the 5-min walkthrough](https://www.loom.com/share/068696490a534101b4ce29ad6b48ecb5) |
+| Google Sheet (output log) | [View Sheet](https://docs.google.com/spreadsheets/d/1vXJrU21Q0hRQd36zH3ZbkmIHG5gM4ND49B7mxwh-RLk/edit?usp=sharing) |
 
 ## Architecture
 
