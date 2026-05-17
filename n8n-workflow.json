@@ -1,0 +1,389 @@
+{
+  "name": "UTOPIA",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are LAUNCH OS, Utopia Studio’s internal AI go-to-market operating agent.\n\nContext:\nAfter every studio meeting, a Granola transcript is generated. The marketing team currently reads every transcript manually and writes content from scratch.\n\nYour job is to analyze the transcript and automatically generate structured GTM outputs using the LAUNCH framework.\n\nThe LAUNCH framework:\n- Lead → identify the strongest strategic insight or hook\n- Amplify → expand the insight into compelling messaging\n- Unify → align messaging with Utopia Studio’s positioning\n- Nurture → strengthen the relationship with the attendee\n- Convert → identify growth or partnership opportunities\n- Harvest → extract reusable strategic intelligence\n\nMeeting Details:\nMeeting Title: {{ $json.body.meeting_title }}\nMeeting Date: {{ $json.body.meeting_date }}\nKey Attendee Name: {{ $json.body.key_attendee_name }}\nKey Attendee Email: {{ $json.body.key_attendee_email }}\nRaw Granola Transcript:{{ $json.body.transcript }}\n\n\nTasks:\n\n1. Extract the strongest strategic moment from the meeting\n\n2. Generate LAUNCH framework outputs:\n- strongestMoment\n- lead\n- amplify\n- unify\n- nurture\n- convert\n- harvest\n\n3. Generate publishable content assets:\n- linkedinPost\n- emailSubject\n- emailBody\n- pressAngle\n- nextBestAction\n\nContent Requirements:\n\nLinkedIn Post:\n- Founder/startup tone\n- Intelligent and polished\n- Strong opening hook\n- Concise and engaging\n- No fake claims\n- No emojis unless naturally appropriate\n\nEmail:\n- Personalised\n- Warm but professional\n- Reference actual discussion points\n- Action-oriented\n\nPress Angle:\n- One concise journalist-style insight sentence\n\nCritical Rules:\n- Stay grounded in the transcript\n- Do NOT invent companies, metrics, partnerships, or claims\n- Never mention AI\n- Never output markdown\n- Never output explanations\n- Return ONLY valid JSON\n\nReturn EXACTLY this JSON structure:\n\n{\n  \"meetingTitle\": \"\",\n  \"meetingDate\" : \"\",\n  \"timeStamp\" : \"\",\n  \"attendeeName\": \"\",\n  \"attendeeEmail\": \"\",\n  \"strongestMoment\": \"\",\n  \"lead\": \"\",\n  \"amplify\": \"\",\n  \"unify\": \"\",\n  \"nurture\": \"\",\n  \"convert\": \"\",\n  \"harvest\": \"\",\n  \"linkedinPost\": \"\",\n  \"emailSubject\": \"\",\n  \"emailBody\": \"\",\n  \"pressAngle\": \"\",\n  \"nextBestAction\": \"\"\n}\n\nIf transcript is empty or invalid, return:\n\n{\n  \"strongestMoment\": \"ERROR: Missing transcript\",\n  \"lead\": \"ERROR: Missing transcript\",\n  \"amplify\": \"ERROR: Missing transcript\",\n  \"unify\": \"ERROR: Missing transcript\",\n  \"nurture\": \"ERROR: Missing transcript\",\n  \"convert\": \"ERROR: Missing transcript\",\n  \"harvest\": \"ERROR: Missing transcript\",\n  \"linkedinPost\": \"ERROR: Missing transcript\",\n  \"emailSubject\": \"ERROR: Missing transcript\",\n  \"emailBody\": \"ERROR: Missing transcript\",\n  \"pressAngle\": \"ERROR: Missing transcript\",\n  \"nextBestAction\": \"ERROR: Missing transcript\"\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fac2cc57-0cc9-4734-b8a5-da9198451708",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        160
+      ],
+      "id": "dc734b39-2c37-4bd9-a43a-dd2e740b4f58",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "sKmoJYVbZalPs4NS",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw =\n  $json.output ||\n  $json.text ||\n  $json.message?.content ||\n  $json.content ||\n  \"\";\n\nlet parsed = {};\n\ntry {\n  parsed = typeof raw === \"string\" ? JSON.parse(raw) : raw;\n} catch (error) {\n  parsed = {};\n}\n\nreturn [\n  {\n    json: {\n      timestamp: new Date().toISOString(),\n\n      meeting_title: parsed.meetingTitle || \"\",\n      meeting_date: parsed.meetingDate || \"\",\n      key_attendee_name: parsed.attendeeName || \"\",\n      key_attendee_email: parsed.attendeeEmail || \"\",\n\n      strongestMoment: parsed.strongestMoment || \"\",\n      lead: parsed.lead || \"\",\n      amplify: parsed.amplify || \"\",\n      unify: parsed.unify || \"\",\n      nurture: parsed.nurture || \"\",\n      convert: parsed.convert || \"\",\n      harvest: parsed.harvest || \"\",\n      linkedinPost: parsed.linkedinPost || \"\",\n      emailSubject: parsed.emailSubject || \"\",\n      emailBody: parsed.emailBody || \"\",\n      pressAngle: parsed.pressAngle || \"\",\n      nextBestAction: parsed.nextBestAction || \"\",\n\n      fullJSON: JSON.stringify(parsed)\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "e5957869-ccf0-4025-b419-105bc8f086d1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1vXJrU21Q0hRQd36zH3ZbkmIHG5gM4ND49B7mxwh-RLk",
+          "mode": "list",
+          "cachedResultName": "UTOPIA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vXJrU21Q0hRQd36zH3ZbkmIHG5gM4ND49B7mxwh-RLk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vXJrU21Q0hRQd36zH3ZbkmIHG5gM4ND49B7mxwh-RLk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp ": "={{ $json.timestamp }}",
+            "Meeting title ": "={{ $('Webhook1').item.json.body.meeting_title }}",
+            "Key Attendee Email": "={{ $json.key_attendee_email }}",
+            "Meeting Date": "={{ $json.timestamp }}",
+            "Key Attendee Name": "={{ $json.key_attendee_name }}",
+            "Strongest Moment": "={{ $json.strongest_moment }}",
+            "Lead": "={{ $json.lead }}",
+            "Amplify": "={{ $json.amplify }}",
+            "Unify": "={{ $json.unify }}",
+            "Nurture": "={{ $json.nurture }}",
+            "Convert": "={{ $json.convert }}",
+            "Harvest": "={{ $json.harvest }}",
+            "Linkdln Post": "={{ $json.linkedinPost }}",
+            "Email Subject": "={{ $json.email_subject }}",
+            "Email Body": "={{ $json.email_body }}",
+            "Press Angle": "={{ $json.press_angle }}",
+            "Next Best Action": "={{ $json.next_best_action }}",
+            "Full JSON": "={{ $json.full_json }}"
+          },
+          "matchingColumns": [
+            "Timestamp "
+          ],
+          "schema": [
+            {
+              "id": "Timestamp ",
+              "displayName": "Timestamp ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Meeting title ",
+              "displayName": "Meeting title ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Meeting Date",
+              "displayName": "Meeting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Key Attendee Name",
+              "displayName": "Key Attendee Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Key Attendee Email",
+              "displayName": "Key Attendee Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Strongest Moment",
+              "displayName": "Strongest Moment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead",
+              "displayName": "Lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amplify",
+              "displayName": "Amplify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Unify",
+              "displayName": "Unify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nurture",
+              "displayName": "Nurture",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Convert",
+              "displayName": "Convert",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Harvest",
+              "displayName": "Harvest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Linkdln Post",
+              "displayName": "Linkdln Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Subject",
+              "displayName": "Email Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Body",
+              "displayName": "Email Body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Press Angle",
+              "displayName": "Press Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Best Action",
+              "displayName": "Next Best Action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full JSON",
+              "displayName": "Full JSON",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        0
+      ],
+      "id": "8257ed3f-c352-4e1d-8e1f-eacc78271968",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "x3TfQV3CvpbSWREB",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"linkedinPost\": {{ JSON.stringify($json.linkedinPost) }},\n  \"email_subject\": {{ JSON.stringify($json.emailSubject) }},\n  \"email_body\": {{ JSON.stringify($json.emailBody) }},\n  \"press_angle\": {{ JSON.stringify($json.pressAngle) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        768,
+        176
+      ],
+      "id": "2538c1ad-6e79-4382-a721-0d87931575b7",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "utopia",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        0
+      ],
+      "id": "1ce5116f-3dd1-4715-acdc-4f4186c79f56",
+      "name": "Webhook1",
+      "webhookId": "ab72c0a8-c363-4996-8545-9a4573f53220"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b5992fd0-ef07-45e4-a1f9-65e74eef6e47",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "412fb0e6a075349810abf19a6ca52b1a991a9e936b2cd030d888cd156e57e9bb"
+  },
+  "id": "Ml8ODJInIbZlnz71",
+  "tags": []
+}
