@@ -31,10 +31,10 @@ When given a meeting transcript, immediately produce:
 **PRESS_ANGLE**: One sharp sentence a journalist could run with
 
 ### User Message:
-**Meeting Title**: [title]  
-**Date**: [date]  
-**Attendee**: [name] ([email])  
-**Transcript**: [transcript]  
+**1. Meeting Title**: [title]  
+**2. Date**: [date]  
+**3. Attendee**: [name] ([email])  
+**4. Transcript**: [transcript]  
 
 ## Tools & APIs
 
