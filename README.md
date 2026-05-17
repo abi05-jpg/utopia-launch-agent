@@ -9,3 +9,5 @@ One-line: An AI agent that turns raw meeting transcripts into a LinkedIn post, f
 3. Submit a transcript via the form → outputs appear on screen + logged to Google Sheets
 
 ## Architecture
+
+Website (Netlify) → Webhook (n8n) → AI Agent (GPT-4o-mini) → Code Parser → Google Sheets → Response
