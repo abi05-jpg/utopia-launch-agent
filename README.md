@@ -1,6 +1,6 @@
 ## UTOPIA — Marketing & Events AI Agent
 
-One-line: An AI agent that turns raw meeting transcripts into a LinkedIn post, follow-up email, and press angle using the LAUNCH framework.
+An AI agent that turns raw meeting transcripts into a LinkedIn post, follow-up email, and press angle using the LAUNCH framework.
 
 ## How to Run
 
